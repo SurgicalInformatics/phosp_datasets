@@ -3,19 +3,25 @@
 # and put the objects in our shared data directory (secure server, encrypted)
 # Centre for Medical Informatics, Usher Institute, University of Edinburgh 2020
 
+# Log
+cat(paste("Start:", Sys.time()))
+
+# Environment variables
+readRenviron("/home/eharrison/.Renviron")
+
 # Pull raw data
 timestamp = format(Sys.time(), "%Y-%m-%d_%H%M")
-source("../phosp_clean/01_data_pull.R")
-write_rds(phosp, file = paste0("/home/common/phosp/raw/phosp_", timestamp, ".rds"), compress = "xz")
+source("/home/eharrison/phosp_clean/01_data_pull.R")
+saveRDS(phosp, file = paste0("/home/common/phosp/raw/phosp_", timestamp, ".rds"))
 
 # Clean
-source("../phosp_clean/02_functions.R")
-system.time(source("../phosp_clean/03_prep.R"))
+source("/home/eharrison/phosp_clean/02_functions.R")
+system.time(source("/home/eharrison/phosp_clean/03_prep.R"))
 mydir = "/home/common/phosp/cleaned/full/"
 
 # Write out
-write_rds(phosp, paste0(mydir, "phsop_", timestamp, "_full.rds"), compress = "xz")
-write_rds(phosp_hosp, paste0(mydir, "phsop_hosp_", timestamp, "_full.rds"), compress = "xz")
+saveRDS(phosp, paste0(mydir, "phosp_", timestamp, "_full.rds"))
+saveRDS(phosp_hosp, paste0(mydir, "phsop_hosp_", timestamp, "_full.rds"))
 
 lastrun = lubridate::ymd_hm(timestamp)
 save(lastrun,
