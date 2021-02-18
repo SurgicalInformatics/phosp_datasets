@@ -20,8 +20,7 @@ system.time(source("/home/eharrison/phosp_clean/03_prep.R"))
 mydir = "/home/common/phosp/cleaned/full/"
 
 # Write out
-saveRDS(phosp, paste0(mydir, "phosp_", timestamp, "_full.rds"))
-saveRDS(phosp_hosp, paste0(mydir, "phsop_hosp_", timestamp, "_full.rds"))
+saveRDS(phosp_hosp, paste0(mydir, "phosp_hosp_", timestamp, "_full.rds"))
 
 lastrun = lubridate::ymd_hm(timestamp)
 save(lastrun,
